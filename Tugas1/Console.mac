@@ -1,0 +1,46 @@
+%macro BuatConsole 3
+	
+	call [AllocConsole] 
+
+	push dword %1 
+	call [SetConsoleTitleA] 
+
+	push dword -11 				
+	call [GetStdHandle] 
+	mov dword [%2], eax 
+
+	push dword -10				 
+	call [GetStdHandle] 
+	mov dword [%3], eax 
+
+%endmacro
+
+%macro TampilkanText 4
+	push dword 0 				
+	push dword %4				
+	push dword [%3] 			
+	push dword %2				
+	push dword [%1] 			
+	call [WriteFile] 
+%endmacro
+
+%macro BacaText 4
+	push dword 0 		
+	push dword %4 		
+	push dword [%3] 	
+	push dword %2 		
+	push dword [%1] 	
+	call [ReadFile] 			
+%endmacro
+
+%macro TutupConsole 0
+	call [FreeConsole] 
+	xor eax, eax 
+	push eax 
+	call [ExitProcess]
+%endmacro
+
+%macro Tunggu 1
+	push dword %1*1000 		;; delay %1/1000 second 
+	call [Sleep] 
+%endmacro
